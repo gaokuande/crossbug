@@ -29,7 +29,7 @@ var Engine = (function(global) {
     canvas.width = 550;
     canvas.height = 700;
     canvas.setAttribute("id", "canvas");
-    canvas.setAttribute("style", "position: absolute;left: 10%;right: auto;");
+    canvas.setAttribute("style", "position: absolute;left: 10%;right: auto;height:85vh");
     document.getElementById('all').appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself

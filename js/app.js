@@ -329,7 +329,7 @@ Key.prototype.update = function() {
         keyCount++;
     }
     // Once player grabs 5 gems a key appears
-    if (grabKey === 0 && gemCount >= 1) {
+    if (grabKey === 0 && gemCount >= 10) {
         key.itemReset(); // Travels up to its parent (Gem) to use this method
         this.sprite = 'images/Key.png';
         grabKey++;
