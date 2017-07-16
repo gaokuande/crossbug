@@ -2,8 +2,10 @@
 
 # crossBug
 
-A simple webpage game. You need to control the princess to get the key and enter the castle.
 =============
+
+A simple webpage game. You need to control the princess to get the key and enter the castle.
+
 
 You can play the game online at [this link](https://gitlwh.github.io/crossBug/)
 
@@ -12,6 +14,7 @@ If you want to run it on your local machine.  Download and unzip all files to a 
 Thanks to [Patrick](http://patricko10.github.io/), this project is based on his work.
 
 ## How to play
+
 =============
 
 Use your arrow keys to move.
