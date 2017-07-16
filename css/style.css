@@ -1,0 +1,27 @@
+body {
+    text-align: center;
+}
+
+#scoreboard {
+	font-size: 36px;
+	font-family: sans-serif;
+}
+#all{
+	position: relative;
+    width: 700px;
+    height: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#highscore{
+	margin-top: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    width: 50%;
+}
+#highScoreHead{
+	color: #ffff40;
+    text-shadow: 0 0 0.5em #ff7a1c;
+    margin-top: -0.5em;
+}

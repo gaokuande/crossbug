@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cross the bug stream</title>
+    <link rel="stylesheet" href="css/style.css">
+	<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<script>
+
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCuZjY6229bARXmxhzII_xM1_Zok4lsWGU",
+    authDomain: "crossbug-7c9af.firebaseapp.com",
+    databaseURL: "https://crossbug-7c9af.firebaseio.com",
+    projectId: "crossbug-7c9af",
+    storageBucket: "crossbug-7c9af.appspot.com",
+    messagingSenderId: "263724982641"
+  };
+  firebase.initializeApp(config);
+  var ref = firebase.database().ref("scores");
+  var i=1;
+  var scores;
+  firebase.database().ref("scores/scores").on('value', function(snapshot) {
+        scores = snapshot.val();
+    });
+  function showscore(score){
+  	console.log(score);
+  	//download all scores to see if it is higher than any
+
+  	console.log(scores);
+  	var updates = {};
+  	/*scores = {
+  		1:{
+  			score:2000,
+  			name:'Tom'
+  		},
+  		2:{
+  			score:1900,
+  			name:'David'
+  		},
+  		3:{
+  			score:1000,
+  			name:'Mary'
+  		},
+  		4:{
+  			score:90,
+  			name:'Stefen'
+  		}
+
+  	}*/
+  	
+
+  	var shouldins = false;
+  	if(Object.keys(scores).length<10){
+  		shouldins = true;
+  		i=1;
+  		console.log(i);
+  		while(i<=Object.keys(scores).length&&scores[i]['score']>=score){
+  			i++;
+  		}
+  		var j=Object.keys(scores).length+1;
+  		while(j>i){
+  			scores[j]=scores[j-1];
+  			j--;
+  		}
+  		var newarray={};
+  		newarray['score']=score;
+  		newarray['name']='Anonymous';
+  		scores[i]=newarray;
+  	}else if(scores[10]['score']<score){
+  		shouldins = true;
+  		i=1;
+  		while(i<=10&&scores[i]['score']>=score){
+  			i++;
+  		}
+  		var j=10;
+  		while(j>i){
+  			scores[j]['score']=scores[j-1]['score'];
+  			j--;
+  		}
+  		var newarray={};
+  		newarray['score']=score;
+  		newarray['name']='Anonymous';
+  		scores[i]=newarray;
+  	}
+    if(shouldins){
+      console.log(scores);
+      updates['/scores'] = scores;
+      ref.update(updates);
+      var div = document.createElement('div');
+      div.setAttribute("style","padding:10px;");
+      div.setAttribute("id","remindinput");
+      div.innerHTML='Input your name please. <br>Press enter to make sure.';
+      document.getElementById("highscore").appendChild(div);
+      for(var m=1;m<=Object.keys(scores).length;m++){
+        var div = document.createElement('div');
+        div.setAttribute("style","padding:10px;");
+        var score = document.createElement('div');
+        score.setAttribute("style","width: 45%;display:inline-block;text-align: left;float: right;font-family: SFFedoraTitlesRegular,Arial;color: #ffff40;text-shadow: 0 0 0.5em #ff7a1c;");
+        score.innerHTML=scores[m]['score'];
+
+        if(m==i){
+        var name = document.createElement('input');
+          name.setAttribute('id','inputname');
+          name.setAttribute('style','background: rgba(0, 0, 0, 0.24);border-color: black;float: left; width: 45%;display:inline-block;float: left;');
+      
+
+        }else{
+        var name = document.createElement('div');
+        name.setAttribute("style","width: 45%;display:inline-block;text-align:right;float: left;color: #1f4367;text-transform: uppercase;font-family: SFFedoraTitlesRegular,Arial;");
+          name.innerHTML=scores[m]['name'];
+        }
+        div.appendChild(name);
+        div.appendChild(score);
+        document.getElementById("highscore").appendChild(div);
+        $("#highscore").css("display","inline-block");
+      }
+      $("#inputname").on('keyup', function (e) {
+        if (e.keyCode == 13) {
+          /*var span = $(document.createElement('span'));
+          console.log($(this).val());
+          var a = $(this).val();
+          span.innerHTML='hello';*/
+          document.getElementById("highscore").removeChild(document.getElementById("remindinput"));
+          var name = $("#inputname").val();
+          if(name!=''){
+            $(this).replaceWith("<div style='width: 45%;display:inline-block;text-align:right;float: left;color: #1f4367;text-transform: uppercase;font-family: SFFedoraTitlesRegular,Arial;'>"+name+"</div>");
+            //$("#inputname").HTML("<span>"+$("#inputname").val()+"</span>");
+            console.log(scores[i]["name"]);
+            scores[i]["name"]=name;
+            console.log(scores[i]["name"]);
+            updates['/scores'] = scores;
+            ref.update(updates);
+          }else{
+            $(this).replaceWith("<div style='width: 45%;display:inline-block;text-align:right;float: left;color: #1f4367;text-transform: uppercase;font-family: SFFedoraTitlesRegular,Arial;'>Anonymous</div>");
+          }
+          
+        }
+      });
+    }else{
+      for(var m=1;m<=Object.keys(scores).length;m++){
+        var div = document.createElement('div');
+        div.setAttribute("style","padding:10px;");
+        var score1 = document.createElement('div');
+        score1.setAttribute("style","width: 45%;display:inline-block;text-align: left;float: right;font-family: SFFedoraTitlesRegular,Arial;color: #ffff40;text-shadow: 0 0 0.5em #ff7a1c;");
+        score1.innerHTML=scores[m]['score'];
+
+        var name = document.createElement('div');
+        name.setAttribute("style","width: 45%;display:inline-block;text-align:right;float: left;color: #1f4367;text-transform: uppercase;font-family: SFFedoraTitlesRegular,Arial;");
+          name.innerHTML=scores[m]['name'];
+        div.appendChild(name);
+        div.appendChild(score1);
+        document.getElementById("highscore").appendChild(div);
+        $("#highscore").css("display","inline-block");
+        
+
+
+      }
+      var div = document.createElement('div');
+        div.setAttribute("style","padding:10px;");
+        var score1 = document.createElement('div');
+        score1.setAttribute("style","width: 45%;display:inline-block;text-align: left;float: right;font-family: SFFedoraTitlesRegular,Arial;color: #ffff40;text-shadow: 0 0 0.5em #ff7a1c;");
+        score1.innerHTML=score;
+
+        var name = document.createElement('div');
+        name.setAttribute("style","width: 45%;display:inline-block;text-align:right;float: left;color: #1f4367;text-transform: uppercase;font-family: SFFedoraTitlesRegular,Arial;");
+          name.innerHTML='your score';
+        div.appendChild(name);
+        div.appendChild(score1);
+        document.getElementById("highscore").appendChild(div);
+        $("#highscore").css("display","inline-block");
+      var remind = document.createElement('div');
+        remind.setAttribute("style","padding:10px;");
+        remind.innerHTML="Sorry, your score can't enter the scoreboard.";
+      document.getElementById("highscore").appendChild(remind);
+
+    }
+  	
+  };
+
+
+
+</script>
+<body>
+	<h1>Cross the bug stream</h1>
+	<div id = 'all'>
+		<div id='scoreboard'></div>
+	    <script src="js/resources.js"></script>
+	    <script src="js/app.js"></script>
+	    <script src="js/engine.js"></script>
+
+      <div id = 'highscore' style="display: none;">
+    <h1 id = 'highScoreHead'>High Score</h1>
+    </div>
+		
+	</div>
+</body>
+</html>
